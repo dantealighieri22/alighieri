@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANTE ALIGHIERI — Primo Canto (Ascolta)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #030508;
+            --bg-card: #080d14;
+            --accent-blue: #1e90ff;
+            --silver-metal: #b8c5d6;
+            --gold-antique: #c5a880;
+            --text-light: #e1e8f0;
+            --text-muted: #7a8a9e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, .gothic-font {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(3, 5, 8, 0.95);
+            border-bottom: 1px solid rgba(30, 144, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--silver-metal);
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--accent-blue); }
+
+        .player-section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: radial-gradient(circle at center, #0a192f 0%, #030508 80%);
+        }
+
+        .player-box {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-blue);
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 20px rgba(30, 144, 255, 0.2);
+            margin-top: 25px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        h1 {
+            color: var(--text-light);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(30, 144, 255, 0.4);
+        }
+
+        h2 {
+            color: var(--silver-metal);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .stream-counter {
+            display: inline-block;
+            background: rgba(30, 144, 255, 0.1);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(30, 144, 255, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(30, 144, 255, 0.15);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="../index.html" class="logo gothic-font">DANTE ALIGHIERI</a>
+        <a href="../index.html" class="back-link">← Torna alla Home</a>
+    </nav>
+
+    <main class="player-section">
+        <h1>Primo Canto</h1>
+        <h2>Dante Alighieri (2026)</h2>
+
+        <div class="stream-counter">
+            Stream totali: <span id="counter-output">0</span>
+        </div>
+
+        <div class="player-box">
+            <video id="audio-video-element" controls>
+                <source src="../contenuti/primo canto/primo canto.m4a.mp4" type="video/mp4">
+                <source src="../contenuti/primo canto/primo canto.m4a" type="audio/mp4">
+                Il tuo browser non supporta la riproduzione.
+            </video>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Dante Alighieri Records</p>
+    </footer>
+
+    <script>
+        const mediaNode = document.getElementById('audio-video-element');
+        const displayNode = document.getElementById('counter-output');
+
+        let currentPlays = localStorage.getItem('dante_track_plays');
+        if (currentPlays === null) {
+            currentPlays = 0;
+            localStorage.setItem('dante_track_plays', currentPlays);
+        }
+
+        displayNode.innerText = Number(currentPlays).toLocaleString();
+
+        let hasCounted = false;
+
+        mediaNode.addEventListener('play', function() {
+            if (!hasCounted) {
+                currentPlays = parseInt(localStorage.getItem('dante_track_plays')) + 1;
+                localStorage.setItem('dante_track_plays', currentPlays);
+                displayNode.innerText = Number(currentPlays).toLocaleString();
+                hasCounted = true;
+            }
+        });
+
+        mediaNode.addEventListener('ended', function() {
+            hasCounted = false;
+        });
+    </script>
+
+</body>
+</html>
